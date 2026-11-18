@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="SlaveHandeshake" Id="{3263238b-6fc1-43e9-b841-2f1cb576edab}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SlaveHandeshake
+VAR_INPUT
+	ixLong :BOOL;
+	ixShort :BOOL;
+	ixCarEnd: BOOL;
+	ixStrobIn :BOOL; 
+END_VAR
+VAR_OUTPUT
+	oxCarStart: BOOL;
+	oxStrobeOne : BOOL;
+    oxStrobeTwo : BOOL;
+END_VAR
+VAR
+	
+	long : LongHandshake;
+	short : ShortHandshake;  
+	oxStrobeOneShort : BOOL;
+	oxStrobeOneLong : BOOL;
+	oxCarStartLong: BOOL;
+	oxCarStartShort: BOOL;
+	step : INT := 0;
+	waitLong : BOOL;
+	waitShort: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ------------------------------
+// State selector: choose which handshake to run
+// ------------------------------
+CASE step OF
+
+    0: // IDLE: wait for a mode selection
+        // NOTE: If both ixLong and ixShort are TRUE, long wins here.
+        IF ixLong THEN
+            step := 10;
+        ELSIF ixShort THEN
+            step := 20;
+        END_IF
+
+    10: // RUN LONG HANDSHAKE
+        long(ixStart := ixCarEnd, ixStrobIn := ixStrobIn);
+
+        // Map long handshake outputs to locals
+        oxStrobeOneLong := long.oxStrobeOne;
+        oxStrobeTwo     := long.oxStrobeTwo;  // direct passthrough (long only)
+        oxCarStartLong  := long.oxStart;
+        waitLong        := long.oxwait;
+
+        // When long handshake reports idle, return to IDLE
+        IF waitLong THEN
+            step := 0;
+        END_IF
+
+    20: // RUN SHORT HANDSHAKE
+        short(ixStart := ixCarEnd, ixStrobIn := ixStrobIn);
+
+        // Map short handshake outputs to locals
+        oxStrobeOneShort := short.oxStrobe;
+        oxCarStartShort  := short.oxStart;
+        waitShort        := short.oxwait;     // FIX: lowercase 'short'
+
+        // When short handshake reports idle, return to IDLE
+        IF waitShort THEN
+            step := 0;
+        END_IF
+
+END_CASE
+
+
+// ------------------------------
+// Common output mapping
+// ------------------------------
+
+// Car start/ack goes TRUE if either handshake asserts it
+IF oxCarStartShort OR oxCarStartLong THEN 
+	oxCarStart := TRUE; 
+ELSE 
+	oxCarStart := FALSE; 
+END_IF
+
+// Primary strobe is TRUE if either handshake asserts it
+IF oxStrobeOneShort OR oxStrobeOneLong THEN
+	oxStrobeOne := TRUE; 
+ELSE 
+	oxStrobeOne := FALSE; 
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="SlaveHandeshake">
+      <LineId Id="145" Count="48" />
+      <LineId Id="202" Count="3" />
+      <LineId Id="194" Count="2" />
+      <LineId Id="206" Count="3" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.20">
+	<Project ProjectGUID="{7C2F97B6-75D8-4897-A8EF-83F5C9AD761B}" TargetNetId="199.4.42.250.1.1" Target64Bit="true" ShowHideConfigurations="#x3c7">
+		<System>
+			<Tasks>
+				<Task Id="3" Priority="1" CycleTime="800000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+				<Task Id="4" Priority="20" CycleTime="100000" AmsPort="351" AdtTasks="true">
+					<Name>PlcTask1</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{EAD8EEDD-7FBE-4AA5-A504-6A5CAFEEB988}" Name="PLCSim" PrjFilePath="PLCSim\PLCSim.plcproj" TmcFilePath="PLCSim\PLCSim.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{A00A0523-D24E-0572-92CC-84F540CAC4A2}" TmcPath="PLCSim\PLCSim.tmc">
+					<Name>PLCSim Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>GVL.qxPulse</Name>
+							<Comment><![CDATA[ PULS button ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxStart</Name>
+							<Comment><![CDATA[ START switch ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxSetLevel</Name>
+							<Comment><![CDATA[ NIVÅ switch ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxLevel3</Name>
+							<Comment><![CDATA[ Sensor for level 3 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxLevel2</Name>
+							<Comment><![CDATA[ Sensor for level 2 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxLevel1</Name>
+							<Comment><![CDATA[ Sensor for level 1 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxNotEmpty</Name>
+							<Comment><![CDATA[ Sensor for not empty ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxTempOk</Name>
+							<Comment><![CDATA[ Temp sensor ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>GVL.ixForw</Name>
+							<Comment><![CDATA[ Washer cylinder forward ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixBack</Name>
+							<Comment><![CDATA[ Washer cylinder back ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixSpin</Name>
+							<Comment><![CDATA[ Washer cylinder spin ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixFill</Name>
+							<Comment><![CDATA[ Fill water ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixDrain</Name>
+							<Comment><![CDATA[ Drain water ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixHeat</Name>
+							<Comment><![CDATA[ Heat water ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixDispBit1</Name>
+							<Comment><![CDATA[ Display bit 1 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixDispBit2</Name>
+							<Comment><![CDATA[ Display bit 2 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>1</Priority>
+							<CycleTime>80000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="1" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{0D403755-5F34-4D9F-B699-FA1FCD875DC8}" Name="PLCStudent" PrjFilePath="PLCStudent\PLCStudent.plcproj" TmcFilePath="PLCStudent\PLCStudent.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{8866A55F-0BE0-E9B3-696B-0F2214A57601}" TmcPath="PLCStudent\PLCStudent.tmc">
+					<Name>PLCStudent Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>Control_FBD.qxForw</Name>
+							<Comment><![CDATA[ Washer cylinder forward ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxBack</Name>
+							<Comment><![CDATA[ Washer cylinder back ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxSpin</Name>
+							<Comment><![CDATA[ Hi-spin/Centrifuge need qxForw or qxBack]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxFill</Name>
+							<Comment><![CDATA[ Fill water ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxDrain</Name>
+							<Comment><![CDATA[ Drain water ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxHeat</Name>
+							<Comment><![CDATA[ Heat water ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxDispBit1</Name>
+							<Comment><![CDATA[ Display bit 1 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.qxDispBit2</Name>
+							<Comment><![CDATA[ Display bit 2 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>Control_FBD.ixPulse</Name>
+							<Comment><![CDATA[ PULS button ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixStart</Name>
+							<Comment><![CDATA[ START switch ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixSetLevel</Name>
+							<Comment><![CDATA[ NIVÅ switch ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixLevel3</Name>
+							<Comment><![CDATA[ Sensor for level 3 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixLevel2</Name>
+							<Comment><![CDATA[ Sensor for level 2 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixLevel1</Name>
+							<Comment><![CDATA[ Sensor for level 1 ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixNotEmpty</Name>
+							<Comment><![CDATA[ Sensor for not empty ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>Control_FBD.ixTempOk</Name>
+							<Comment><![CDATA[ Temp sensor ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<UnrestoredVarLinks ImportTime="2019-02-27T11:22:59">
+						<OwnerA Name="OutputSrc" Prefix="TIPC^PLCStudent^PLCStudent Instance" Type="2">
+							<OwnerB Name="TIPC^PLCSim^PLCSim Instance">
+								<Link VarA="Control_LD.qxBack" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixBack" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxDispBit1" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixDispBit1" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxDispBit2" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixDispBit2" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxDrain" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixDrain" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxFill" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixFill" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxForw" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixForw" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxHeat" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixHeat" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.qxSpin" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Inputs^GVL.ixSpin" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+						<OwnerA Name="InputDst" Prefix="TIPC^PLCStudent^PLCStudent Instance" Type="1">
+							<OwnerB Name="TIPC^PLCSim^PLCSim Instance">
+								<Link VarA="Control_LD.ixLevel1" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxLevel1" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixLevel2" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxLevel2" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixLevel3" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxLevel3" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixNotEmpty" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxNotEmpty" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixPulse" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxPulse" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixSetLevel" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxSetLevel" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixStart" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxStart" RestoreInfo="ANotFound"/>
+								<Link VarA="Control_LD.ixTempOk" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="PlcTask Outputs^GVL.qxTempOk" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010040</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502041"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Io/>
+	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{08502001-2041-0850-0020-500840205008}" Id="#x02030010" Watchdog="04000000200000000400000004000000"/>
+		<OwnerA Name="TIPC^PLCSim^PLCSim Instance">
+			<OwnerB Name="TIPC^PLCStudent^PLCStudent Instance">
+				<Link VarA="PlcTask Inputs^GVL.ixBack" VarB="PlcTask Outputs^Control_FBD.qxBack"/>
+				<Link VarA="PlcTask Inputs^GVL.ixDispBit1" VarB="PlcTask Outputs^Control_FBD.qxDispBit1"/>
+				<Link VarA="PlcTask Inputs^GVL.ixDispBit2" VarB="PlcTask Outputs^Control_FBD.qxDispBit2"/>
+				<Link VarA="PlcTask Inputs^GVL.ixDrain" VarB="PlcTask Outputs^Control_FBD.qxDrain"/>
+				<Link VarA="PlcTask Inputs^GVL.ixFill" VarB="PlcTask Outputs^Control_FBD.qxFill"/>
+				<Link VarA="PlcTask Inputs^GVL.ixForw" VarB="PlcTask Outputs^Control_FBD.qxForw"/>
+				<Link VarA="PlcTask Inputs^GVL.ixHeat" VarB="PlcTask Outputs^Control_FBD.qxHeat"/>
+				<Link VarA="PlcTask Inputs^GVL.ixSpin" VarB="PlcTask Outputs^Control_FBD.qxSpin"/>
+				<Link VarA="PlcTask Outputs^GVL.qxLevel1" VarB="PlcTask Inputs^Control_FBD.ixLevel1"/>
+				<Link VarA="PlcTask Outputs^GVL.qxLevel2" VarB="PlcTask Inputs^Control_FBD.ixLevel2"/>
+				<Link VarA="PlcTask Outputs^GVL.qxLevel3" VarB="PlcTask Inputs^Control_FBD.ixLevel3"/>
+				<Link VarA="PlcTask Outputs^GVL.qxNotEmpty" VarB="PlcTask Inputs^Control_FBD.ixNotEmpty"/>
+				<Link VarA="PlcTask Outputs^GVL.qxPulse" VarB="PlcTask Inputs^Control_FBD.ixPulse"/>
+				<Link VarA="PlcTask Outputs^GVL.qxSetLevel" VarB="PlcTask Inputs^Control_FBD.ixSetLevel"/>
+				<Link VarA="PlcTask Outputs^GVL.qxStart" VarB="PlcTask Inputs^Control_FBD.ixStart"/>
+				<Link VarA="PlcTask Outputs^GVL.qxTempOk" VarB="PlcTask Inputs^Control_FBD.ixTempOk"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmProject>

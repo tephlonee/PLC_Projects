@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVLStudent" Id="{4fe59810-d256-489d-89ea-a500d73a9689}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Lamp varibols
+	OXLampOXOne :BOOL;
+	OXLampIXOneGreen :BOOL;
+	OXLampOXTwo :BOOL;
+	OXLampIXTwoGreen :BOOL;
+	
+	// Button varibols
+	IXButtonShort AT %Q* :BOOL;
+	IXButtonLong AT %Q*:BOOL;
+	// strob out 
+	oxStrobOne AT %Q* : BOOL ;
+	oxStrobTwo AT %Q* : BOOL ;
+ 	// strob in
+	ixStrobOne AT %I* : BOOL ;
+	ixStrobTwo AT %I* : BOOL ; 
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

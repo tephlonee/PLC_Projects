@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="LongHandshake" Id="{e1aaeb54-0808-43ec-b44c-58631c901a70}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK LongHandshake
+VAR_INPUT
+	ixStrobIn : BOOL;
+END_VAR
+VAR_OUTPUT
+	oxStrobeOne : BOOL;
+	oxStrobeTwo : BOOL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="LongHandshake">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

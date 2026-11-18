@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="OUTPUT_TEXT" Id="{38c9bf37-a674-41a3-918c-44d94dea0761}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION OUTPUT_TEXT : STRING
+VAR_INPUT
+	level : INT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF level >= 60 THEN;
+	OUTPUT_TEXT := 'High Level';
+ELSIF level <= 40 THEN;
+	OUTPUT_TEXT := 'Low Level';
+ELSE
+	OUTPUT_TEXT := 'Normal Level';
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

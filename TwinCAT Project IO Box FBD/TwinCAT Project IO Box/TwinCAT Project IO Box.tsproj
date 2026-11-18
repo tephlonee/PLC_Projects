@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.20">
+	<Project ProjectGUID="{36A78BF9-0E70-4F41-BE07-F97410DDBF69}" TargetNetId="199.4.42.250.1.1" Target64Bit="true" ShowHideConfigurations="#x3c7">
+		<System>
+			<Tasks>
+				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{BF8E83EC-43A6-45E7-9ED4-3ED0A57AD684}" Name="PLCSim" PrjFilePath="PLCSim\PLCSim.plcproj" TmcFilePath="PLCSim\PLCSim.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9CF3CFF9-7A8C-59D5-2D17-566173E9B674}" TmcPath="PLCSim\PLCSim.tmc">
+					<Name>PLCSim Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>GVL.qxButton1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton4</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton5</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton6</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton7</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.qxButton8</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>GVL.ixLed1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed4</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed5</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed6</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed7</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVL.ixLed8</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{F517B67D-4614-4659-A791-A4661C9D1258}" Name="PLCStudent" PrjFilePath="PLCStudent\PLCStudent.plcproj" TmcFilePath="PLCStudent\PLCStudent.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{AB6F65A1-2DE2-0DB0-A7DF-1F1B8FFDDE46}" TmcPath="PLCStudent\PLCStudent.tmc">
+					<Name>PLCStudent Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>ControlFBD.qxLed1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed4</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed5</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed6</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed7</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.qxLed8</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>ControlFBD.ixButton1</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton2</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton3</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton4</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton5</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton6</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton7</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>ControlFBD.ixButton8</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502041"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Io/>
+	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500840205008}" Id="#x02030010"/>
+		<OwnerA Name="TIPC^PLCSim^PLCSim Instance">
+			<OwnerB Name="TIPC^PLCStudent^PLCStudent Instance">
+				<Link VarA="PlcTask Inputs^GVL.ixLed1" VarB="PlcTask Outputs^ControlFBD.qxLed1"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed2" VarB="PlcTask Outputs^ControlFBD.qxLed2"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed3" VarB="PlcTask Outputs^ControlFBD.qxLed3"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed4" VarB="PlcTask Outputs^ControlFBD.qxLed4"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed5" VarB="PlcTask Outputs^ControlFBD.qxLed5"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed6" VarB="PlcTask Outputs^ControlFBD.qxLed6"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed7" VarB="PlcTask Outputs^ControlFBD.qxLed7"/>
+				<Link VarA="PlcTask Inputs^GVL.ixLed8" VarB="PlcTask Outputs^ControlFBD.qxLed8"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton1" VarB="PlcTask Inputs^ControlFBD.ixButton1"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton2" VarB="PlcTask Inputs^ControlFBD.ixButton2"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton3" VarB="PlcTask Inputs^ControlFBD.ixButton3"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton4" VarB="PlcTask Inputs^ControlFBD.ixButton4"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton5" VarB="PlcTask Inputs^ControlFBD.ixButton5"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton6" VarB="PlcTask Inputs^ControlFBD.ixButton6"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton7" VarB="PlcTask Inputs^ControlFBD.ixButton7"/>
+				<Link VarA="PlcTask Outputs^GVL.qxButton8" VarB="PlcTask Inputs^ControlFBD.ixButton8"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmProject>

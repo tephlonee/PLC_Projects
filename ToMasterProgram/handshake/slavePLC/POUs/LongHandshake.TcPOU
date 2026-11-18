@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="LongHandshake" Id="{528afa1e-4d59-4be6-ae28-46eaed581d76}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK LongHandshake
+VAR_INPUT
+    ixStart   : BOOL; // From Master: start command ("execute now")
+    ixStrobIn : BOOL; // From Master: strobe/ack line used through the long handshake
+END_VAR
+VAR_OUTPUT
+    oxStart     : BOOL; // To Master: Slave "start request" (go-high to request start)
+    oxStrobeOne : BOOL; // To Master: first Slave strobe (ack for initial Master strobe)
+    oxStrobeTwo : BOOL; // To Master: second Slave strobe (ack after start)
+    oxwait      : BOOL; // TRUE when idle/waiting; FALSE during handshake
+END_VAR
+VAR
+    step : INT := 0;     // State machine step
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE step OF
+
+    0:  // IDLE: reset strobes, signal wait, and watch for Master strobe
+        oxStrobeOne := FALSE;
+        oxStrobeTwo := FALSE;
+        oxStart     := FALSE;   // Ensure start request is low in idle
+        oxwait      := TRUE;
+
+        IF ixStrobIn THEN
+            // Master raised strobe → acknowledge with Slave strobe one
+            oxStrobeOne := TRUE;
+            oxwait      := FALSE;
+            step        := 10;
+        END_IF
+
+    10: // HOLD STROBE ONE until Master drops its strobe
+        oxStrobeOne := TRUE;
+
+        IF NOT ixStrobIn THEN
+            // Master dropped strobe → drop Slave strobe one and move on
+            oxStrobeOne := FALSE;
+            step        := 20;
+        END_IF
+
+    20: // REQUEST START: raise oxStart to ask Master to start
+        oxStart := TRUE;        // Keep high until Master issues ixStart
+
+        IF ixStart THEN
+            // Start received → drop request and raise second strobe
+            oxStart     := FALSE;
+            oxStrobeTwo := TRUE;
+            step        := 30;
+        END_IF
+
+    30: // HOLD STROBE TWO until Master acknowledges (raises its strobe)
+        oxStrobeTwo := TRUE;
+
+        IF ixStrobIn THEN
+            // Master acknowledged → drop strobe two and wait for final low
+            oxStrobeTwo := FALSE;
+            step        := 40;
+        END_IF
+
+    40: // WAIT FOR MASTER TO RETURN LOW to complete the cycle
+        oxStrobeTwo := FALSE;
+
+        IF NOT ixStrobIn THEN
+            // Handshake finished → back to idle
+            step := 0;
+        END_IF
+
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="LongHandshake">
+      <LineId Id="154" Count="50" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

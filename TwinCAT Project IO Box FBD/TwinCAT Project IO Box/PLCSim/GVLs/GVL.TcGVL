@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <GVL Name="GVL" Id="{9e5b26e2-f6d9-41a1-97a7-bf35b438b6ed}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	qxButton1 AT %Q* : BOOL;
+	qxButton2 AT %Q* : BOOL;
+	qxButton3 AT %Q* : BOOL;
+	qxButton4 AT %Q* : BOOL;
+	qxButton5 AT %Q* : BOOL;
+	qxButton6 AT %Q* : BOOL;
+	qxButton7 AT %Q* : BOOL;
+	qxButton8 AT %Q* : BOOL;
+	
+	ixLed1 AT %I* : BOOL;
+	ixLed2 AT %I* : BOOL;
+	ixLed3 AT %I* : BOOL;
+	ixLed4 AT %I* : BOOL;
+	ixLed5 AT %I* : BOOL;
+	ixLed6 AT %I* : BOOL;
+	ixLed7 AT %I* : BOOL;
+	ixLed8 AT %I* : BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.20">
+	<Project ProjectGUID="{2B24E199-6D72-45A1-A11A-E24D97F57029}" TargetNetId="199.4.42.250.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
+		<System>
+			<Tasks>
+				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+					<Name>PlcTask</Name>
+				</Task>
+				<Task Id="4" Priority="21" CycleTime="100000" AmsPort="351" AdtTasks="true">
+					<Name>PlcTask1</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{9B5F8394-7FB7-4ED9-8BA6-2810073D23E3}" Name="StudentPLC" PrjFilePath="StudentPLC\StudentPLC.plcproj" TmcFilePath="StudentPLC\StudentPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{A45465B6-567B-F43E-9CFF-7335666AEE56}" TmcPath="StudentPLC\StudentPLC.tmc">
+					<Name>StudentPLC Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>GVLStudent.IXButtonShort</Name>
+							<Comment><![CDATA[ Button varibols]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLStudent.IXButtonLong</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLStudent.oxStrobOne</Name>
+							<Comment><![CDATA[ strob out ]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLStudent.oxStrobTwo</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>GVLStudent.ixStrobOne</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLStudent.ixStrobTwo</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010030</OTCID>
+							</ManualConfig>
+							<Priority>20</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{87D7FE0E-B932-4DB7-B86E-BDC49EB14BC2}" Name="slavePLC" PrjFilePath="slavePLC\slavePLC.plcproj" TmcFilePath="slavePLC\slavePLC.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{F0A78E71-4F1A-2FB1-C2B4-282268521E17}" TmcPath="slavePLC\slavePLC.tmc">
+					<Name>slavePLC Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>GVLSlave.oxStrobOne</Name>
+							<Comment><![CDATA[strob out]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLSlave.oxStrobTwo</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>GVLSlave.ixStrobOne</Name>
+							<Comment><![CDATA[strob in]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLSlave.ixStrobTwo</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLSlave.ixLong</Name>
+							<Comment><![CDATA[ Long or Short]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>GVLSlave.ixShort</Name>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Contexts>
+						<Context>
+							<Id>0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010040</OTCID>
+							</ManualConfig>
+							<Priority>21</Priority>
+							<CycleTime>10000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="21" OTCID="#x08502041"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+		<Io/>
+	</Project>
+	<Mappings>
+		<MappingInfo Identifier="{08502001-2041-0850-0020-500840205008}" Id="#x02030010" Watchdog="04000000040000000400000004000000"/>
+		<OwnerA Name="TIPC^StudentPLC^StudentPLC Instance">
+			<OwnerB Name="TIPC^slavePLC^slavePLC Instance">
+				<Link VarA="PlcTask Inputs^GVLStudent.ixStrobOne" VarB="PlcTask Outputs^GVLSlave.oxStrobOne"/>
+				<Link VarA="PlcTask Inputs^GVLStudent.ixStrobTwo" VarB="PlcTask Outputs^GVLSlave.oxStrobTwo"/>
+				<Link VarA="PlcTask Outputs^GVLStudent.IXButtonLong" VarB="PlcTask Inputs^GVLSlave.ixLong"/>
+				<Link VarA="PlcTask Outputs^GVLStudent.IXButtonShort" VarB="PlcTask Inputs^GVLSlave.ixShort"/>
+				<Link VarA="PlcTask Outputs^GVLStudent.oxStrobOne" VarB="PlcTask Inputs^GVLSlave.ixStrobOne"/>
+				<Link VarA="PlcTask Outputs^GVLStudent.oxStrobTwo" VarB="PlcTask Inputs^GVLSlave.ixStrobTwo"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
+</TcSmProject>

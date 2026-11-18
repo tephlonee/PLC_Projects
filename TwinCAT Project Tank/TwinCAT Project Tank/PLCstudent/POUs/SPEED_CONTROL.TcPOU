@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SPEED_CONTROL" Id="{2597bb6b-e7d4-4b85-89da-19acc4178c50}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION SPEED_CONTROL : INT
+VAR_INPUT
+	ixLevel : INT;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SPEED_CONTROL := (50 - ixLevel) * 10;
+IF SPEED_CONTROL < 0 THEN;
+	SPEED_CONTROL := 0;
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

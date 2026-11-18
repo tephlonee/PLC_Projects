@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="LampSlave" Id="{8d4caae1-5353-4b4a-a19c-2444642da58b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK LampSlave
+VAR_INPUT
+	ixStrobOutOne :BOOL; // Direct control for group One main lamp (OX1)
+	ixStrobOutTwo :BOOL; // Direct control for group Two main lamp (OX2)
+	
+	ixStrobInOne: BOOL; // Start signal for LampDelay sequence (group One)
+	ixStrobInTwo: BOOL; // Start signal for LampDelay sequence (group Two)
+
+END_VAR
+VAR_OUTPUT
+	  // Group One: main lamp + 3 indicator lamps (R, B, G)
+	oxOXOne :BOOL; // Main lamp (direct)
+	
+	oxIXOneGreen :BOOL; // Indicator Green (from LampDelay)
+	
+	oxOXTwo :BOOL; // Main lamp (direct)
+	
+	oxIXTwoGreen :BOOL; // Indicator Green (from LampDelay)
+	
+	oxStrobInOneTrue: BOOL; // TRUE when all three indicators (group One) are ON
+	oxStrobInTwoTrue: BOOL;// TRUE when all three indicators (group Two) are ON
+	
+END_VAR
+	
+VAR
+	
+	LampIXOne : LampDelay; // Instance for group One sequence
+	LampIXTwo : LampDelay; // Instance for group Two sequence
+	
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ------------------------------
+// Direct main-lamp control
+// ------------------------------
+
+IF ixStrobOutOne THEN
+	oxOXOne := TRUE;
+ELSE
+	oxOXOne := FALSE;
+END_IF
+
+IF ixStrobOutTwo THEN
+	oxOXTwo := TRUE;
+ELSE
+	oxOXTwo := FALSE;
+END_IF
+
+
+
+// ------------------------------
+// Group One: delayed indicator sequence
+// ------------------------------
+LampIXOne(ixStart := ixStrobInOne);
+
+// Map LampDelay outputs to group One indicators
+oxIXOneGreen     := LampIXOne.oxLampThree; // Green
+oxStrobInOneTrue := LampIXOne.oxAllLightsOn; // All indicators ON
+
+
+// ------------------------------
+// Group Two: delayed indicator sequence
+// ------------------------------
+LampIXTwo(ixStart := ixStrobInTwo);
+
+// Map LampDelay outputs to group Two indicators
+oxIXTwoGreen     := LampIXTwo.oxLampThree; // Green
+oxStrobInTwoTrue := LampIXTwo.oxAllLightsOn; // All indicators ON
+]]></ST>
+    </Implementation>
+    <LineIds Name="LampSlave">
+      <LineId Id="278" Count="1" />
+      <LineId Id="276" Count="1" />
+      <LineId Id="215" Count="13" />
+      <LineId Id="280" Count="5" />
+      <LineId Id="288" Count="0" />
+      <LineId Id="234" Count="2" />
+      <LineId Id="289" Count="5" />
+      <LineId Id="297" Count="0" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="118" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

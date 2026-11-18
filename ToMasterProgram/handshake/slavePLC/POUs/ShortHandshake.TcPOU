@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="ShortHandshake" Id="{7552b8c8-967b-4c3d-9ec4-ed9ba1050ac3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ShortHandshake
+VAR_INPUT
+    ixStart   : BOOL; // Input from Master: start command ("execute now")
+    ixStrobIn : BOOL; // Input from Master: strobe/trigger to initiate the handshake
+END_VAR
+
+VAR_OUTPUT
+    oxStart  : BOOL; // Output to Master: "acknowledge/ready" from Slave
+    oxStrobe : BOOL; // Output to Master: Slave strobe/confirmation during handshake
+    oxwait   : BOOL; // Output: TRUE when Slave is idle/waiting
+END_VAR
+
+VAR
+    step : INT := 0; // State machine step
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// ------------------------------
+// Short handshake sequence (Slave side)
+// Step 0: Idle, waiting for Master strobe (ixStrobIn = TRUE)
+// Step 10: Acknowledge/ready (oxStart = TRUE) until Master issues start (ixStart = TRUE)
+// Step 20: Slave strobe (oxStrobe = TRUE) until Master drops its strobe (ixStrobIn = FALSE)
+// ------------------------------
+CASE step OF
+
+    0:  // IDLE: reset all signals, wait for Master strobe
+        oxStrobe := FALSE;
+        oxStart  := FALSE;
+        oxwait   := TRUE;
+
+        IF ixStrobIn THEN
+            // Master raised strobe → acknowledge and go to READY
+            oxStart := TRUE;
+            oxwait  := FALSE;
+            step    := 10;
+        END_IF
+
+    10: // READY: wait for Master start command
+        oxStart := TRUE;   // Keep acknowledge high
+
+        IF ixStart THEN
+            // Master gave start → drop ack and raise Slave strobe
+            oxStart  := FALSE;
+            oxStrobe := TRUE;
+            step     := 20;
+        END_IF
+
+    20: // SLAVE STROBE: hold until Master drops its strobe
+        oxStrobe := TRUE;
+
+        IF NOT ixStrobIn THEN
+            // Master strobe dropped → finish cycle and return to idle
+            oxStrobe := FALSE;
+            step     := 0;
+        END_IF
+
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="ShortHandshake">
+      <LineId Id="70" Count="39" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

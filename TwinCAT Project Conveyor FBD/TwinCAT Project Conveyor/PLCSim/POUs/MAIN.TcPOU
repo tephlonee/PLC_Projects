@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="MAIN" Id="{31785a7b-363b-4926-ba76-520e0571d2ce}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	qxSensor1		AT %Q*:	BOOL; 		//Pallet on sensor1
+	qxSensor2		AT %Q*:	BOOL; 		//Pallet on sensor2
+	qxSensor3		AT %Q*:	BOOL; 		//Pallet on sensor3
+
+	ixRunConveyor1	AT %I*:	BOOL; 		// Run Conveyor 1*)
+	ixRunConveyor2	AT %I*:	BOOL; 		// Run Conveyor 2*)
+	ixRunConveyor3	AT %I*:	BOOL; 		// Run Conveyor 3*)
+
+	(* Internal Visiu variables *)
+	miPallet1PosX:		INT:=0;		
+	miPallet1PosY:		INT:=0;		
+	miPallet2PosX:		INT:=0;	
+	miPallet2PosY:		INT:=0;		
+	miPallet3PosX:		INT:=0;
+	miPallet3PosY:		INT:=0;		
+
+	mxLoadPallet: BOOL;
+	mxLoadPallet1: BOOL;
+	mxLoadPallet2: BOOL;
+	mxLoadPallet3: BOOL;
+	
+	mxMotor1Running : BOOL;
+	mxMotor2Running : BOOL;
+	mxMotor3Running : BOOL;
+	
+	mxEmptyConvayor1 : BOOL;
+	mxEmptyConvayor2 : BOOL;
+	mxEmptyConvayor3 : BOOL;
+	
+END_VAR
+
+VAR CONSTANT
+
+END_VAR    ]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*  Pallets on three conveyors  *)
+(*  2024-10-29  Anders Nilsson University West *)
+
+
+//Select a pallet to load
+IF mxLoadPallet AND NOT qxSensor1 THEN
+	IF miPallet1PosY = 0 AND NOT mxLoadPallet2 AND NOT mxLoadPallet3  THEN
+		mxLoadPallet1 := TRUE;
+	END_IF
+	IF miPallet2PosY = 0 AND NOT mxLoadPallet1 AND NOT mxLoadPallet3  THEN
+		mxLoadPallet2 := TRUE;
+	END_IF
+	IF miPallet3PosY = 0 AND NOT mxLoadPallet1 AND NOT mxLoadPallet2  THEN
+		mxLoadPallet3 := TRUE;
+	END_IF
+END_IF
+	
+//Load Pallet 1	
+IF mxLoadPallet1 THEN
+	IF miPallet1PosY < 170 THEN 
+		miPallet1PosY := miPallet1PosY + 5;
+	ELSE 
+		mxLoadPallet1 := FALSE;
+	END_IF
+END_IF
+
+//Load Pallet 2	
+IF mxLoadPallet2 THEN
+	IF miPallet2PosY < 170 THEN 
+		miPallet2PosY := miPallet2PosY + 5;
+	ELSE 
+		mxLoadPallet2 := FALSE;
+	END_IF
+END_IF
+
+//Load Pallet 3	
+IF mxLoadPallet3 THEN
+	IF miPallet3PosY < 170 THEN 
+		miPallet3PosY := miPallet3PosY + 5;
+	ELSE 
+		mxLoadPallet3 := FALSE;
+	END_IF
+END_IF
+
+//Motor running signals to HMI
+mxMotor1Running := ixRunConveyor1;
+mxMotor2Running := ixRunConveyor2;
+mxMotor3Running := ixRunConveyor3;
+
+
+//Run Pallet 1 forward on conveyor 1
+IF  ixRunConveyor1 AND miPallet1PosY = 170 AND miPallet1PosX < 120 THEN
+	miPallet1PosX := miPallet1PosX + 2;
+END_IF
+
+//Run Pallet 1 forward on conveyor 2
+IF  ixRunConveyor2 AND miPallet1PosY = 170 AND miPallet1PosX > 100 AND miPallet1PosX < 310 THEN
+	miPallet1PosX := miPallet1PosX + 2;
+END_IF
+
+//Run Pallet 1 forward on conveyor 3
+IF  ixRunConveyor3 AND miPallet1PosY = 170 AND miPallet1PosX > 290 AND miPallet1PosX < 500 THEN
+	miPallet1PosX := miPallet1PosX + 2;
+END_IF
+
+
+//Run Pallet 2 forward on conveyor 1
+IF  ixRunConveyor1 AND miPallet2PosY = 170 AND miPallet2PosX < 120 THEN
+	miPallet2PosX := miPallet2PosX + 2;
+END_IF
+
+//Run Pallet 2 forward on conveyor 2
+IF  ixRunConveyor2 AND miPallet2PosY = 170 AND miPallet2PosX > 100 AND miPallet2PosX < 310 THEN
+	miPallet2PosX := miPallet2PosX + 2;
+END_IF
+
+//Run Pallet 2 forward on conveyor 3
+IF  ixRunConveyor3 AND miPallet2PosY = 170 AND miPallet2PosX > 290 AND miPallet2PosX < 500 THEN
+	miPallet2PosX := miPallet2PosX + 2;
+END_IF
+
+//Run Pallet 3 forward on conveyor 1
+IF  ixRunConveyor1 AND miPallet3PosY = 170 AND miPallet3PosX < 120 THEN
+	miPallet3PosX := miPallet3PosX + 2;
+END_IF
+
+//Run Pallet 3 forward on conveyor 2
+IF  ixRunConveyor2 AND miPallet3PosY = 170 AND miPallet3PosX > 100 AND miPallet3PosX < 310 THEN
+	miPallet3PosX := miPallet3PosX + 2;
+END_IF
+
+//Run Pallet 3 forward on conveyor 3
+IF  ixRunConveyor3 AND miPallet3PosY = 170 AND miPallet3PosX > 290 AND miPallet3PosX < 500 THEN
+	miPallet3PosX := miPallet3PosX + 2;
+END_IF
+
+
+
+
+//Empty the Pallets from conveyors
+IF mxEmptyConvayor1 THEN 
+	IF miPallet1PosY = 170 AND miPallet1PosX < 20 THEN
+		miPallet1PosX := 0;
+		miPallet1PosY := 0;
+	END_IF
+	IF miPallet2PosY = 170 AND miPallet2PosX < 20 THEN
+		miPallet2PosX := 0;
+		miPallet2PosY := 0;
+	END_IF
+	IF miPallet3PosY = 170 AND miPallet3PosX < 20 THEN
+		miPallet3PosX := 0;
+		miPallet3PosY := 0;
+	END_IF
+END_IF
+
+
+IF mxEmptyConvayor2 THEN 
+	IF miPallet1PosY = 170 AND miPallet1PosX >= 170 AND miPallet1PosX < 210   THEN
+		miPallet1PosX := 0;
+		miPallet1PosY := 0;
+	END_IF
+	IF miPallet2PosY = 170 AND miPallet2PosX >= 170 AND miPallet2PosX < 210 THEN
+		miPallet2PosX := 0;
+		miPallet2PosY := 0;
+	END_IF
+	IF miPallet3PosY = 170 AND miPallet3PosX >= 170 AND miPallet3PosX < 210 THEN
+		miPallet3PosX := 0;
+		miPallet3PosY := 0;
+	END_IF	
+	
+END_IF
+
+IF mxEmptyConvayor3 THEN
+	IF miPallet1PosY = 170 AND miPallet1PosX >= 360 THEN 
+		miPallet1PosX := 0;
+		miPallet1PosY := 0;
+	END_IF
+	IF miPallet2PosY = 170 AND miPallet2PosX >= 360 THEN
+		miPallet2PosX := 0;
+		miPallet2PosY := 0;
+	END_IF
+	IF miPallet3PosY = 170 AND miPallet3PosX >= 360 THEN
+		miPallet3PosX := 0;
+		miPallet3PosY := 0;
+	END_IF		
+END_IF
+
+//Sensors
+qxSensor1 := miPallet1PosY = 170 AND miPallet1PosX < 150 
+ 		  OR miPallet2PosY = 170 AND miPallet2PosX < 150
+		  OR miPallet3PosY = 170 AND miPallet3PosX < 150; 
+
+qxSensor2 := miPallet1PosY = 170 AND miPallet1PosX > 200 AND miPallet1PosX < 330
+          OR miPallet2PosY = 170 AND miPallet2PosX > 200 AND miPallet2PosX < 330
+          OR miPallet3PosY = 170 AND miPallet3PosX > 200 AND miPallet3PosX < 330;
+
+qxSensor3 := miPallet1PosY = 170 AND miPallet1PosX > 380 AND miPallet1PosX < 490
+	      OR miPallet2PosY = 170 AND miPallet2PosX > 380 AND miPallet2PosX < 490
+          OR miPallet3PosY = 170 AND miPallet3PosX > 380 AND miPallet3PosX < 490;
+
+
+
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="189" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="183" Count="0" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="176" Count="1" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="206" Count="1" />
+      <LineId Id="216" Count="5" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="205" Count="0" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="181" Count="1" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="223" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="225" Count="5" />
+      <LineId Id="232" Count="1" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="235" Count="5" />
+      <LineId Id="242" Count="1" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="291" Count="1" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="295" Count="1" />
+      <LineId Id="294" Count="0" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="285" Count="0" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="287" Count="1" />
+      <LineId Id="307" Count="4" />
+      <LineId Id="313" Count="4" />
+      <LineId Id="429" Count="1" />
+      <LineId Id="438" Count="13" />
+      <LineId Id="431" Count="0" />
+      <LineId Id="452" Count="13" />
+      <LineId Id="436" Count="1" />
+      <LineId Id="428" Count="0" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="318" Count="0" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="327" Count="0" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="348" Count="7" />
+      <LineId Id="375" Count="0" />
+      <LineId Id="347" Count="0" />
+      <LineId Id="300" Count="0" />
+      <LineId Id="328" Count="0" />
+      <LineId Id="342" Count="0" />
+      <LineId Id="329" Count="1" />
+      <LineId Id="343" Count="0" />
+      <LineId Id="359" Count="6" />
+      <LineId Id="357" Count="1" />
+      <LineId Id="332" Count="0" />
+      <LineId Id="334" Count="1" />
+      <LineId Id="344" Count="0" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="345" Count="0" />
+      <LineId Id="368" Count="6" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="333" Count="0" />
+      <LineId Id="301" Count="0" />
+      <LineId Id="376" Count="0" />
+      <LineId Id="384" Count="1" />
+      <LineId Id="378" Count="0" />
+      <LineId Id="302" Count="0" />
+      <LineId Id="387" Count="0" />
+      <LineId Id="390" Count="0" />
+      <LineId Id="388" Count="0" />
+      <LineId Id="377" Count="0" />
+      <LineId Id="391" Count="1" />
+      <LineId Id="380" Count="3" />
+      <LineId Id="379" Count="0" />
+      <LineId Id="297" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

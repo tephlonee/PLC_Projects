@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="LampDelay" Id="{0f408811-7220-4e70-af58-05b33b0c9c9d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK LampDelay
+VAR_INPUT
+    ixStart : BOOL;      // Start command: TRUE = run "power-up" sequence; FALSE = run "power-down" sequence
+END_VAR
+VAR_OUTPUT
+    oxLampThree    : BOOL; // Output: Lamp 3 on/off
+    oxAllLightsOn  : BOOL; // TRUE when all three lamps are on
+END_VAR
+VAR
+    t      : TON;             // TON timer instance (non-retentive on IN falling edge)
+    step   : INT := 0;        // State machine step
+    delay  : TIME := T#2S;    // Delay duration used between steps
+    tStart : BOOL;            // Timer IN signal (acts like a "strobe" to start the TON)
+    tEnd   : BOOL;            // TRUE when timer has elapsed (t.Q)
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+//_______________________________________________________________________________________________
+// LampDelay is a step-sequenced (state machine) controller that turns on three lamps
+// one BY one with a fixed delay between each stage when ixStart is TRUE. 
+// When ixStart goes FALSE, it turns the lamps off again in reverse order, also with delays. 
+// A TON timer (t) provides the per-step delay. oxAllLightsOn is TRUE once all three lamps are on.
+//_______________________________________________________________________________________________
+
+
+// ------------------------------
+// State machine for sequenced on/off with delays
+// ------------------------------
+CASE step OF
+
+    0: // Idle/reset: all lamps off, wait for start
+        oxLampThree    := FALSE;
+        oxAllLightsOn  := FALSE;
+        IF ixStart THEN
+            // Start power-up sequence: immediately turn on Lamp 1 and start delay
+            tStart    := TRUE;                  // Start the TON for the next step delay
+			t(IN := tStart, PT := delay);
+            step      := 20;
+        END_IF
+
+
+    20: // After Lamp 2 is on, wait delay, then turn on Lamp 3
+        IF tEnd THEN
+            tStart := FALSE;                   // Reset TON input before next start
+            t(IN := tStart, PT := delay);
+            oxLampThree := TRUE;
+            step := 30;
+        END_IF
+
+    30: // All three lamps are on; assert "all on" and wait for stop command
+        oxAllLightsOn := TRUE;
+        IF NOT ixStart THEN
+            // Begin power-down sequence after stop command
+            tStart := TRUE;                    // Start delay before turning lamps off
+            t(IN := tStart, PT := delay);
+            step := 60;
+        END_IF
+
+
+    60: // Wait delay, then turn off Lamp 1 and return to idle
+        IF tEnd THEN
+            oxLampThree := FALSE;
+			tStart := FALSE;
+			t(IN := tStart,  PT := delay);
+            step := 0;                         // Back to idle
+        END_IF
+
+END_CASE
+
+// ------------------------------
+// Timer execution (must be called each cycle)
+// ------------------------------
+t(IN := tStart, PT := delay);  // Evaluate TON with current IN/PT
+tEnd := t.Q;                   // Timer done flag for step logic
+]]></ST>
+    </Implementation>
+    <LineIds Name="LampDelay">
+      <LineId Id="391" Count="57" />
+      <LineId Id="174" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

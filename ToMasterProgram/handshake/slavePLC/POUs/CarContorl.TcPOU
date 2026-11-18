@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="CarContorl" Id="{32946ae4-b5d7-4afd-a3bd-eea23695656e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK CarContorl
+VAR_INPUT
+    ixStart : BOOL;         // Start signal: TRUE = run sequence, FALSE = reset
+END_VAR
+VAR_OUTPUT
+    oxCopCar : INT;         // Position counter for Cop car (moves negative)
+    oxRedCar : INT;         // Position counter for Red car (moves negative)
+    oxEnd    : BOOL;        // TRUE when both cars reach their thresholds
+END_VAR
+VAR
+    step   : INT := 0;      // Step in the state machine
+    t      : TON;           // TON timer instance (1s delay)
+    delay  : TIME := T#1S;  // Delay interval
+    tStart : BOOL;          // TON input (used as strobe to retrigger timer)
+    tEnd   : BOOL;          // TON output (TRUE when delay time has passed)
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//_______________________________________________________________________________________________________________
+// CarContorl is a simple state machine that simulates two “cars” moving when the start signal (ixStart) is TRUE.
+// Every second, the Cop car counter decreases by 2 and the Red car counter decreases by 3.
+// When both cars pass their thresholds (Cop ≤ −800 and Red ≤ −1000), the output oxEnd is set TRUE.
+// If ixStart goes FALSE, everything resets to the initial state.
+//______________________________________________________________________________________________________________
+
+CASE step OF
+
+    0:  // IDLE/RESET: clear outputs and wait for start
+        oxEnd    := FALSE;
+        oxCopCar := 0;
+        oxRedCar := 0;
+
+        IF ixStart THEN
+            tStart := TRUE;                // Start the first delay
+            t(IN := tStart, PT := delay);
+            step := 1;
+        END_IF
+
+    1:  // UPDATE POSITION: decrement both cars each cycle
+        oxCopCar := oxCopCar - 2;          // Cop car moves -2 per step
+        oxRedCar := oxRedCar - 3;          // Red car moves -3 per step
+
+        IF tEnd THEN                       // After 1 second → go to check
+            step := 10;
+        END_IF
+
+    10: // CHECK GOALS: have both thresholds been reached?
+        IF (oxCopCar <= -800) AND (oxRedCar <= -1000) THEN
+            oxEnd := TRUE;                 // Both goals reached → finish
+            step  := 20;
+        ELSE
+            // Not yet → retrigger TON for next cycle
+            tStart := FALSE;               // Reset TON input
+            t(IN := tStart, PT := delay);
+            tStart := TRUE;                // Rising edge to retrigger TON
+            t(IN := tStart, PT := delay);
+            step := 1;                     // Continue updating
+        END_IF
+
+    20: // FINISHED: hold end signal until start goes low
+        oxEnd := TRUE;
+
+        IF NOT ixStart THEN                // Stop command → reset
+            oxEnd := FALSE;
+            step  := 0;
+        END_IF
+
+END_CASE
+
+// ------------------------------
+// Timer evaluation – must be called every cycle
+// ------------------------------
+t(IN := tStart, PT := delay);
+tEnd := t.Q;]]></ST>
+    </Implementation>
+    <LineIds Name="CarContorl">
+      <LineId Id="102" Count="54" />
+      <LineId Id="61" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
